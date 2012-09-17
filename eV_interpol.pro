@@ -158,9 +158,9 @@ FUNCTION EV_INTERPOL, VV, XX, XOUT, SPLINE=spline, LSQUADRATIC=ls2, QUADRATIC=qu
   if (~regular) then isNAN or= FINITE(x, /NAN)
   
   if (~ARRAY_EQUAL(isNAN, 0)) then begin
-    good = WHERE(~isNAN, ngood)
+    good = WHERE(~isNAN, ngood,complement=bad)
     if (ngood gt 0 && ngood lt m) then begin
-      v = v[good]
+;      v = v[good]
       if (regular) then begin
         ; We supposedly had a regular grid, but some of the values
         ; were NaN (missing). So construct the irregular grid.
@@ -168,7 +168,7 @@ FUNCTION EV_INTERPOL, VV, XX, XOUT, SPLINE=spline, LSQUADRATIC=ls2, QUADRATIC=qu
         x = LINDGEN(m)
         xout = FINDGEN(nOut) * ((m-1.0) / ((nOut-1.0) > 1.0)) ;Grid points
       endif
-      x = x[good]
+;      x = x[good]
     endif
   endif
 
@@ -248,10 +248,18 @@ FUNCTION EV_INTERPOL, VV, XX, XOUT, SPLINE=spline, LSQUADRATIC=ls2, QUADRATIC=qu
     15: diff = LONG64(v[s+1]) - LONG64(v[s])
     else: diff = v[s+1] - v[s]
     endcase
+
     p = (xout-x[s])*diff/(x[s+1] - x[s]) + v[s]
+;    if n_elements(bad) GT 1 then begin
+;       nanpt = VALUE_LOCATE(xx[bad], xout) > 0L < (m-2) ;get the
+;       subscripts where points are bad
+;       badInterPoints = where(s EQ 
+;       pospoints = where(nanpt GE 0)
+;       p[nanpt[pospoints]] = !values.f_nan                         ;; make these points nan
+;       stop
+;    endif
     end
     
-  ENDCASE
-
+ENDCASE
   RETURN, p
 end
