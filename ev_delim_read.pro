@@ -15,7 +15,7 @@ readf,1,tagst
 tags = strtrim(strsplit(tagst,delimiter,/extract),1)
 ntags = n_elements(tags)
 
-replaceTypes = [' ','(',')','/','\','.','-','=']
+replaceTypes = [' ','(',')','/','\','.','-','=','#']
 nTypes = n_elements(replaceTypes)
 for i=0l,ntags-1l do begin
    ;; Trim out the parentheses and spaces, etc
