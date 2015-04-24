@@ -1,10 +1,13 @@
-function ev_delim_read,filen,delimiter=delimiter
+function ev_delim_read,filen,delimiter=delimiter,quotehandle=quotehandle,$
+                       assumestring=assumestring
 ; reads any data file with data separated by a delimiter
 ; data is returned as a structure where the tag names are the first
 ; line of the data file
 ; for a CSV file, the delimeter should be set to ','
 ; filen is the file name one wishes to reach
 ; delimiter is the data delimeter - default is pipe '|'
+; quotehandle - ignore delimeters inside pairs of quotes
+; assumestring - assumes all inputs are strings
 
 if n_elements(delimiter) EQ 0 then delimiter = '|'
 nrows = file_lines(filen)
@@ -25,9 +28,16 @@ for i=0l,ntags-1l do begin
 ;   print,tags[i]
 endfor
 
-typest = ''
-readf,1,typest
-typest = strtrim(strsplit(typest,delimiter,/extract),1)
+case 1 of
+   keyword_set(assumestring): begin
+      typest = replicate('string',ntags)
+   end
+   else: begin
+      typest = ''
+      readf,1,typest
+      typest = strtrim(strsplit(typest,delimiter,/extract),1)
+   end
+endcase
 ;; Change all funky variable types into strings
 funnyp = where(typest EQ 'numeric' or typest EQ 'datetime')
 if funnyp NE [-1] then typest[funnyp] = 'string'
@@ -41,7 +51,10 @@ filed = ''
 file2d = strarr(nrows-2l,ntags)
 for i=0l,nrows-3l do begin
    readf,1,filed
-   file2d[i,*] = strtrim(strsplit(filed,delimiter,/extract,/preserve_null),1)
+   if keyword_set(quotehandle) then begin
+      finalSplit = strtrim(quote_split(filed,delimiter),1)
+   endif else finalSplit = strtrim(strsplit(filed,delimiter,/extract,/preserve_null),1)
+   file2d[i,*] = finalSplit
 endfor
 
 close,1
