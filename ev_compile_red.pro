@@ -3,7 +3,7 @@ pro ev_compile_red
 ;; Compiles the reduction scripts
 cd,current=origDir
 
-reductionDir = '/Users/bokonon/triplespec/iraf_scripts'
+reductionDir = reduction_dir()
 cd,reductionDir
 list = file_search('.','*.pro')
 
