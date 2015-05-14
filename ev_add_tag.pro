@@ -1,16 +1,20 @@
-pro ev_add_tag,struct,tag,val
+pro ev_add_tag,struct,tag,val,noerase=noerase
 ;; Takes an array of structures and adds a tag to all of them
 ;outS. USing Coyote GUIDE:
 ; http://www.idlcoyote.com/code_tips/addfield.html
 ;; if val is a 1 element array, it is repeated
 ;; if val is an array with as many elements as struct, they get added
 ;; to each structure
+;; noerase - don't erase the existing field if it already exists
 
 npt = n_elements(struct)
 if npt EQ 0 then begin
    struct = create_struct(tag,val)
 endif else begin
    if tag_exist(struct,tag,index=index) then begin
+      if keyword_set(noerase) then begin
+         return
+      endif
       if n_elements(struct) EQ 1 and $
          n_elements(struct.(index)) NE n_elements(val) then begin
          ev_undefine_tag,struct,tag
