@@ -18,7 +18,9 @@ endif else begin
       if n_elements(struct) EQ 1 and $
          n_elements(struct.(index)) NE n_elements(val) then begin
          ev_undefine_tag,struct,tag
-         struct = create_struct(struct,tag,val)
+         if n_elements(struct) EQ 0 then begin
+            struct = create_struct(tag,val)
+         endif else struct = create_struct(struct,tag,val)
          ;; allow this option to increase the size of an array field
       endif else struct.(index) = val
    endif else begin
