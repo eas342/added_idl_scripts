@@ -1,4 +1,4 @@
 function reduction_dir
 
-return,'/Users/bokonon/triplespec/iraf_scripts'
+return,'/Users/everettschlawin/es_programs/reduction_scripts'
 end
