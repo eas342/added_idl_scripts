@@ -6,6 +6,7 @@
 ;   Craig B. Markwardt, NASA/GSFC Code 662, Greenbelt, MD 20770
 ;   craigm@lheamail.gsfc.nasa.gov
 ;   ES modified to include the xtick_get and ytick_get keywords
+;   ES modified to use DS9 1-based counting conventions if asked
 ;
 ; PURPOSE:
 ;   Displays an image via a "PLOT"-like interface.
@@ -38,7 +39,10 @@
 ;   specifies the "top" and "bottom" boundaries of the image.  This is
 ;   illustrated in Figure 1 for a simplified case.
 ;
-;                                   ___
+;                  
+;
+; ES: When DS9 is NOT set:
+;                 ___
 ;         +-----------+-----------+  ^  IMGYRANGE[1]
 ;         |           |           |  |
 ;         | IMG[0,1]  | IMG[1,1]  |  |
@@ -48,6 +52,25 @@
 ;         +-----------+-----------+  |
 ;         |           |           |  |
 ;         | IMG[0,0]  | IMG[1,0]  |  |
+;         |     +     |     +     |  |
+;         |           |           |  |
+;         |           |           |  v
+;         +-----------+-----------+ ___ IMGYRANGE[0]
+;        |                         |
+;        |<----------------------->|
+;        IMGXRANGE[0]   IMGXRANGE[1]
+;
+; ES: When DS9 Is set:
+;                 ___
+;         +-----------+-----------+  ^  IMGYRANGE[1]
+;         |           |           |  |
+;         | IMG[1,2]  | IMG[2,2]  |  |
+;         |     +     |     +     |  |
+;         |           |           |  |
+;         |           |           |  |
+;         +-----------+-----------+  |
+;         |           |           |  |
+;         | IMG[1,1]  | IMG[2,1]  |  |
 ;         |     +     |     +     |  |
 ;         |           |           |  |
 ;         |           |           |  v
@@ -430,7 +453,7 @@ pro ev_mplotimage, img0, xrange=xrange0, yrange=yrange0, $
                xtickformat=xtickformat,ytickformat=ytickformat,$
                ncolors=ncolors0, bottom=bottom0, range=range, $
                noerase=noerase0, nodata=nodata, noaxes=noaxes, $
-               pixtolerance=pixtolerance, _EXTRA=extra
+               pixtolerance=pixtolerance, ds9=ds9, _EXTRA=extra
 
   ;; Return to user when an error is encountered
   on_error, 2
@@ -547,6 +570,7 @@ pro ev_mplotimage, img0, xrange=xrange0, yrange=yrange0, $
   if n_elements(xrange0) LT 2 then xrange = imgxrange $
   else xrange = 0. + xrange0(0:1)
 
+
   status = 0
   plotimage_pos, xrange, imgxrange, imgxsize, xreverse, srcxpix, imgxpanel, $
     quiet=keyword_set(quiet), status=status, pixtolerance=pixtolerance, $
@@ -561,6 +585,7 @@ pro ev_mplotimage, img0, xrange=xrange0, yrange=yrange0, $
   if n_elements(yrange0) LT 2 then yrange = imgyrange $
   else yrange = 0. + yrange0(0:1)
   if keyword_set(order) then yrange = [yrange(1), yrange(0)]
+
 
   status = 0
   plotimage_pos, yrange, imgyrange, imgysize, yreverse, srcypix, imgypanel, $
@@ -789,6 +814,13 @@ pro ev_mplotimage, img0, xrange=xrange0, yrange=yrange0, $
           if n_elements(imgyrange) GT 1 then yrange=imgyrange $
           else yrange = [0L, imgysize]
       endif
+
+      if keyword_set(ds9) then begin
+         ;; USE the 1-based counting that DS9 does
+         xrange = xrange + 0.5
+         yrange = yrange + 0.5
+      endif
+
 
       plot, xrange, yrange, /noerase, /nodata, /normal, $
         xrange=xrange, yrange=yrange, xlog=xlog, ylog=ylog, $
