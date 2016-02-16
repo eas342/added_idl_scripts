@@ -14,7 +14,12 @@ function choose_file,searchDir=searchDir,filetype=filetype,$
      searchDir = searchDir+'/'
   endelse
   if n_elements(filetype) EQ 0 then filetype = ''
+
+  ;; If it starts with /, then do the absolute path, not relative
   if keyword_set(filter) then begin
+     if strmid(filter,0,1) EQ '/' then begin
+        currentd = ''
+     endif
      searchPath = currentd+'/'+searchDir+filter
   endif else begin 
      searchPath = currentd+'/'+searchDir+'*'+filetype
