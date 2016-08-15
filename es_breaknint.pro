@@ -1,4 +1,4 @@
-PRO breaknint, file
+PRO es_breaknint, file
 ;+
 ; NAME:
 ;
@@ -93,12 +93,7 @@ print,BaseName
 z0=0
 z1=z0+ngroup-1
 for i=0,nint-1 do begin  ; Loop over nints 
-    tmpStr=strtrim(i,2)
-    case 1 of
-        (i lt 10): tmpStr = '00'+tmpStr
-        (i lt 100): tmpStr = '0'+tmpStr
-        ;else: default to whatever we just constructed 
-    endcase
+    tmpStr=string(i,format='(I03)')
     ; Get this block on nint
     _thisint = indata->SubSection(z0=z0,z1=z1)
     _thisheader = FullHeader
