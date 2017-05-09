@@ -25,6 +25,7 @@ for i=0,ncol-1l do begin
       'dgreen':  num =     256l*125l
       'turquoise':num =      256l*153l+256l*256l*153l
       'black':   num =   0l
+      'salmon':  num = 255l+256l*229l +256l*256l*204l
       'main': begin
          if !d.name EQ 'PS' then num = 0l else begin ;;white background
             num = 255l+256l*255l+256l*256l*255l ;; black background
