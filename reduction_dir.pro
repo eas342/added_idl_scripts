@@ -1,4 +1,7 @@
 function reduction_dir
 
-return,'/Users/everettschlawin/es_programs/reduction_scripts'
+   ;; Find the reduction directory from the miv_help procedure
+mivhproname = clobber_dir(file_which('miv_help.pro'),dir=reddir)
+
+return,reddir
 end
