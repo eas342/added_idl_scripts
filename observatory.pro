@@ -218,6 +218,13 @@ case strlowcase(obsname[i]) of
 	altitude = 229.
 	tz = 8
         end
+"dct":  begin
+	name = "Discovery Channel Telescope"
+	longitude = [111,25,19.9]
+	latitude = [34,44,39.8]
+	altitude = 2360.
+	tz = 7
+        end
  "spm":  begin
 	name = "Observatorio Astronomico Nacional, San Pedro Martir"
 	longitude = [115,29,13]
