@@ -1,0 +1,19 @@
+* Implement ramp subsection - ie. don't read in full ramp, rather
+  a section based on available RAM and read in next block when user
+  requests it.  
+  This will require having GetPixel do a fits_read operation. 
+
+* Get Different color tables working. 
+  - Same color table for PixelHistory?  OR Maintain different color tabels? 
+
+* Need to separate ncview from other possible user idl sessions.  Don't 
+  know exactly how to do this...
+
+* Add front end for DHAS execution. 
+  - Configure via gui. 
+  - Save configuration as a .cfg file for batch processing. 
+  - kick off DHAS execution
+  - update visualization with new, processed data. 
+  NOTE:  NCDHAS_Execute is a skeleton of how to maybe approach 
+         this.  Needs lots of work though (in fact it doesn't really
+         do anything right now...).

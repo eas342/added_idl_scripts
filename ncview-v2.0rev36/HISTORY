@@ -1,0 +1,187 @@
+Tue Jul 15 2014 Karl Misselt <misselt@as.arizona.edu>
+- Added correct calculation of time axis for multi-integration
+  data in different observing modes. Note that this will not
+  really know how to handle processed data since that is handled
+  on an individual integration basis.  So this will make taking
+  a quick look at raw images multi-int images useful but doesn't
+  expand the functionality to multi-integration processed images. 
+- Bumped revision to 36.  
+
+Fri Jun 06 2014 Karl Misselt <misselt@as.arizona.edu>
+- Restored access to .wfs, .hdr, .cds images.  Don't know 
+  why I disabled it; probably had a reason and all hell 
+  will break loose now, but what the hay. 
+- Cleaned up some debugging output. All of it? I'm not sure.
+- Really fixed the pixel coordinates in motion on image. 
+  Really. 
+- Bumped revision to 35. 
+
+Wed Jul 03 2013 Karl Misselt <misselt@as.arizona.edu>
+- Fixed clean up of various images on load of new image. 
+  For example, if you loaded an image with a slope and 
+  subsequently loaded an image without a slope, the previous
+  slope image would remain in memory as the slope. Oops. 
+- Fixed pixel coordinates in motion on image. Previously,
+  the STATE variable for coordinates was updated during 
+  motion events on the image, resulting in update of any
+  plotted ramps in the PIXHISTORY widget on the next action
+  in that widget.  Now STATE coordinates only get updated
+  on button events in the image window.
+- Bumped revision to 34
+
+Thu Aug 23 2012 Karl Misselt <misselt@as.arizona.edu>
+- Fixed BUFFERED mode (large files read off disk as needed
+  rather than stored in RAM). 
+- Added 'Read Buffered' to pull down file menu.
+- Bumped revision to 33
+
+Wed May 30 2012 Karl Misselt <misselt@as.arizona.edu>
+- Fixed broken slope image load. 
+- Fixed scaling min/max 
+- Bumped revision to 32
+
+Tue May 15 2012 Karl Misselt <misselt@as.arizona.edu>
+- Added WFS functionality back in.  Oops. 
+- Refined time calculation
+- Bumped revision to 31
+
+Sat Mar 03 2012 Karl Misselt <misselt@as.arizona.edu>
+- fixed min/max generation when scaling image.
+- Plot difference rather than ratio in pixel history
+- Still need to fix the current pixel...
+- the modularity actually didn't get commited... bumping to 30
+
+Wed Oct 12 2011 Karl Misselt <misselt@as.arizona.edu>
+- Added modularity in object definitions for various image
+  types. 
+- Added functionality to PixelHistory window. 
+- Small bug fixes. 
+- Identified origin of bug regarding current pixel - not 
+  fixed here, but in the pipeline. 
+- Bumped revision to 27
+
+Mon Oct 25 2010 Karl Misselt <misselt@as.arizona.edu>
+- Fixed wrap around issues on browse buttons. 
+- Added a slider for perusing frames
+- Bumped revision to 26
+
+Thu Oct 21 2010 Karl Misselt <misselt@as.arizona.edu>
+- Added scaling options. 
+- Bumped revision to 25
+
+Mon Jul 26 2010 Karl Misselt <misselt@as.arizona.edu>
+- Moved object definition to new file/object name.  
+  This was just for compatibility with some other definitions
+  I use in other code - need to clean up my NIRCam IDL 
+  libraries...
+- Added an SCA identifier field.  Look for keyword 'PARTNAME' 
+  and puts that in a widget_label on front panel.  
+- Added minimal keyword retrieval function to the data object. 
+- Bumped revision to 24
+
+* Tue Jun 05 2010 Karl Misselt <misselt@as.arizona.edu>
+- Added ratio option to pixel history.  If a ramp has been
+  fit, clicking the 'ratio' button on the history window
+  will plot the ratio of the data to the fit. 
+  Coding completed last month, just letting bugs shake out. 
+
+* Fri Mar 26 2010 Karl Misselt <misselt@as.arizona.edu> 
+- Modified output parsing.  This version of NCView is NOT
+  compatible with version of ncdhas prior to v2.0.  ie. it
+  will only be compatible with ncdhas output from SVN 
+  revisions >= 73. 
+
+* Mon Jan 18 2009 Karl Misselt <misselt@as.arizona.edu>
+- Added header viewer. No telemetry plotting or searching yet. 
+- Tagged for "stable" release. Plans to modify the DHAS code 
+   output format mean that back ward compatibility will not 
+   be possible. 
+
+* Thu May 7 2009 Karl Misselt <misselt@as.arizona.edu>
+- Assume indexing of saturation frame is 1 indexed. 
+  Fixes issues with plotting when no saturation was detected. 
+- Cleaned up diagnostic print/help statements.
+- Bumped svn revision to 19
+
+* Wed May 6 2009 Karl Misselt <misselt@as.arizona.edu>
+- Correctly parse saturated range info from dhas info to 
+  overplot range used in fit on pixel histories. 
+
+* Tue May 5 2009 Karl Misselt <misselt@as.arizona.edu>
+- Improved auto scaling for slope image. 
+
+* Tue Apr 21 2009 Karl Misselt <misselt@as.arizona.edu>
+- Cleaned up panner window
+- Added zoom functionality to the pixel history window.
+
+* Mon Mar 9 2009   Karl Misselt <misselt@as.arizona.edu>
+- Cleaned up time axis calculation for LMATC data, taking 
+  into account value of DROMFRM1
+
+* Fri Feb 6 2009  Karl Misselt <misselt@as.arizona.edu>
+- Made time axis computation consistent with DHAS/Accumulator. 
+  Version bump to 14
+
+* Fri Aug 15 2008 Karl Misselt <misselt@as.arizona.edu> 
+- Forgot to bump subversion revision in Version string. 
+  So from 12->13, only updated version string...
+
+* Fri Aug 15 2008 Karl Misselt <misselt@as.arizona.edu> 
+- Changed main program name to have same name as calling sequence
+  so that, if the NCView tree is in your IDL path, just typing
+  ncview will work (ie. no .r NCView)
+- Added options to visualize Raw, Processed, or Slope fit images. 
+- Added file dump to pixel history.
+- Added slope/intercept reports on pixel history window. 
+- Modified file chooser so that it will remember the last location
+  from which you loaded an image. 
+- Added 'path' keyword so that you can specify the initial search 
+  path in startup, eg. > ncview,path='/home/misselt' will start
+  file chooser dialog in /home/misselt
+- Bumped version to 0.9 (on subversion revision 12)
+
+* Wed Jul 16 2008 Karl Misselt <misselt@as.arizona.edu>
+- Can specify pixel to plot in the pixel history window. 
+  Specifying a new pixel in the history window will update the display
+  and panner as well.
+
+* XXX Jun xx 2008  Karl Misselt <misselt@as.arizona.edu>
+- Modified to check for SUBARRMD keyword so that the time axis can 
+  be properly computed. 
+
+* Wed Apr 23 2008 Karl Misselt <misselt@as.arizona.edu> 
+- If .slp.fits image exists, the fitted slope will be overplotted in 
+  Pixel History. 
+
+* Thu Apr 17 2008 Karl Misselt <misselt@as.arizona.edu>
+- Time axis is properly computed for pixel history display. 
+
+* Mon Apr 14 2008 Karl Misselt <misselt@as.arizona.edu>
+- Center is now functional. 
+- Invert is now functional. 
+
+* Fri Apr 11 2008 Karl Misselt <misselt@as.arizona.edu>
+- Added panner functionality. 
+- Added plot window colortables. 
+
+* Thu Mar 13 2008 Karl Misselt <misselt@as.arizona.edu>
+- Added current pixel info (x,y) to PixelHistory window. 
+
+* Mon Mar 05 2008 Karl Misselt <misselt@as.arizona.edu>
+- Fixed pixel history plot to refer to real image values rather than 
+  regrided display image.  
+- Added event handlers for manually scaling display in pixel history window.
+- Modified pixel history behavior; when "Mouse Ctl" set to "Pixel History",
+  all button clicks will draw the history of the current pixel. When other
+  "Mouse Ctl" modes are selected, middle mouse button will still produce 
+  "Pixel History" events. 
+  o Color 
+    Left button = scale color table
+    Mid button = plot current pixel history
+    Right button = scale color table
+  o Zoom 
+    Left button = zoom in
+    Mid button = plot current pixel history
+    Right button = zoom out
+  o Pixel History 
+    All buttons plot current pixel history
