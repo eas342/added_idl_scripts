@@ -701,7 +701,7 @@ endif else begin    ; Draw to window
     WSet, (*infoP).IDs.DrawPixHistoryID
 
     plot,[0],[0],yrange=[ylower,yupper],ystyle=1,xrange=[xlower,xupper],xstyle=1, $
-         ytitle = _ytitle,xtitle = _xtitle,/nodata,color=1
+         ytitle = _ytitle,xtitle = _xtitle,/nodata,color=1,background=255l+256l*255l+256l*256l*255l
 ;;oplot,(*(*infoP).Plot.x),(*(*infoP).Plot.y),color=1
     oplot,(*(*infoP).Plot.x),(*(*infoP).Plot.y),psym=2,color=1
     
